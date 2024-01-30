@@ -20,23 +20,17 @@ function step(currFrameTimeStamp) {
 }
 
 // window.requestAnimationFrame(step);
-
 fetch("http://localhost:5000/api/v1/users/showMe", {
   method: "GET",
   credentials: "include",
 })
-  .then((res) => res.json())
+  .then((res) => {
+    if (res.ok) {
+      window.location.href = "http://localhost:5500/protected.html";
+      return;
+    }
+    return res.json();
+  })
   .then((data) => {
-    document.querySelector(".name").innerHTML = "Hi " + data.name;
-    console.log(data);
-  });
-
-fetch("http://localhost:5000/protected", {
-  method: "GET",
-  credentials: "include",
-})
-  .then((res) => res.json())
-  .then((data) => {
-    document.querySelector(".name").innerHTML = "Hi " + data.name;
     console.log(data);
   });
